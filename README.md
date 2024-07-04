@@ -98,3 +98,11 @@ $ rabbitmqadmin get queue='hello'
 При этом будет автоматически создавать политику ha-all.
 
 *Готовый плейбук разместите в своём репозитории.*
+
+тк нам требуется разместить hosts в каждой ноде, используем модуль vagrant, который помещает в машину для управления ноды:
+vagrant plugin install vagrant-hostsupdater
+Плейбуком выдергиваем из машины для управления hosts и помещаем внутрь виртуалок. Остальные действия в целом ничем не отличаются от обычной установки
+
+https://github.com/WilderWein123/11-04/blob/main/files/Vagrantfile
+https://github.com/WilderWein123/11-04/blob/main/files/ansible/playbook.yml
+
