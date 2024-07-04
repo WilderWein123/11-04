@@ -1,0 +1,27 @@
+---
+- hosts: all
+  become: yes
+  gather_facts: no
+  tasks:
+# Здесь настройки для офисного окружения, тк у нас специфические параметры открытых ресурсов, работы DNS и сертификатов для HTTP инспекций
+  - name: drop cookie
+    ansible.builtin.file:
+      path: /var/lib/rabbitmq/.erlang.cookie
+      state: absent
+  - name: create cookie
+    lineinfile:
+      path: /var/lib/rabbitmq/.erlang.cookie
+      line: oBeNIun6xMxXIBsBHAxczVtz+Bk+13GaF8MJJRM6nqOZG/NoxBWIOiMN
+      create: yes
+  - name: stop rabbit
+    command:
+      rabbitmqctl stop_app
+  - name: reset rabbit
+    command:
+      rabbitmqctl reset
+  - name: join cluster
+    command:
+      rabbitmqctl join_cluster rabbit@rmq2
+  - name: start rabbit
+    command: rabbitmqctl start_app
+
