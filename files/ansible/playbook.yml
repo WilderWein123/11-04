@@ -81,6 +81,9 @@
     ansible.builtin.shell: cat /tmp/hosts | grep VAGRANT >> /etc/hosts
     args:
       executable: /bin/bash
+  - name: stop rabbit
+    command:
+      rabbitmqctl stop_app
   - name: drop cookie
     ansible.builtin.file:
       path: /var/lib/rabbitmq/.erlang.cookie
@@ -91,15 +94,9 @@
       line: oBeNIun6xMxXIBsBHAxczVtz+Bk+13GaF8MJJRM6nqOZG/NoxBWIOiMN
       create: yes
   - name: chmod cokie
-    ansible.builtin.shell: chmod 600 /var/lib/rabbitmq/.erlang.cookie
+    ansible.builtin.shell: chmod 400 /var/lib/rabbitmq/.erlang.cookie
     args:
       executable: /bin/bash
-  - name: stop rabbit
-    command:
-      rabbitmqctl stop_app
-  - name: reset rabbit
-    command:
-      rabbitmqctl reset
   - name: join cluster
     command:
       rabbitmqctl join_cluster rabbit@rmq2
